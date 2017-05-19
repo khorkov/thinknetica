@@ -1,11 +1,11 @@
 # Площадь треугольника
 
-puts "Введите основание треугольника :"
-base = gets.chomp.to_i
+puts "Основание треугольника :"
+a = gets.chomp.to_f
 
-puts "Введите его высоту :"
-height = gets.chomp.to_i
+puts "Высота треугольника :"
+h = gets.chomp.to_f
 
-area_triangle = 0.5 * base * height
+area = 0.5 * a * h
 
-puts "Площадь треугольника равна : #{area_triangle}"
+puts "Площадь треугольника равна : #{area}"
