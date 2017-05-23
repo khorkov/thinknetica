@@ -3,8 +3,8 @@
 abc = ('a'..'z')
 vowels = {}
 
-abc.each_with_index do |key, index|
-  vowels[key] = index + 1 if %w(a e i o u y).include?(key)
+abc.each.with_index(1) do |key, index|
+  vowels[key] = index if %w(a e i o u y).include?(key)
 end
 
 p vowels
