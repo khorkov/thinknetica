@@ -1,10 +1,6 @@
 # Заполнить массив числами Фибоначчи до 100
 
-#fibonacci = []
-#fibonacci[0] = 0
-#fibonacci[1] = 1
-
-fibonacci = [0,1]
+fibonacci = [0, 1]
 
 i = 1
 
