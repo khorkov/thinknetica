@@ -1,12 +1,9 @@
 # Заполнить массив числами Фибоначчи до 100
 
-fibonacci = [0, 1]
+fibonacci = [1, 1]
 
-i = 1
-
-while fibonacci[i] < 100 - fibonacci[-1]
-  i += 1
-  fibonacci[i] = fibonacci[-1] + fibonacci[-2]
+while (x = fibonacci[-1] + fibonacci[-2]) < 100
+  fibonacci << x
 end
 
 p fibonacci
