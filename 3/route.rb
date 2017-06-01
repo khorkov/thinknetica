@@ -8,9 +8,9 @@
 
 class Route
 
+  attr_reader :stations
+
   def initialize(from, to)
-    @from = from
-    @to = to
     @stations = [from, to]
     puts "Маршрут построен: со старнции '#{@stations.first.name}' до станции '#{@stations.last.name}'"
   end
@@ -31,7 +31,7 @@ class Route
 
   def list_station
     puts "Текущий маршрут:"
-    @stations.each {|station| puts "#{station.name}"}
+    @stations.each { |station| puts "#{station.name}" }
   end
 
 end

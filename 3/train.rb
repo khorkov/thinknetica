@@ -15,36 +15,36 @@
 
 class Train
 
-  attr_accessor :speed
+  attr_reader :number, :type, :wagon, :route
 
   def initialize(number, type, wagon)
     @number = number
     @type = type
     @wagon = wagon
-    @speed = speed
+    @speed = 0
 
     puts "Собран новый поезд №#{@number}, типа #{@type}, с #{@wagon} вагоном(ми)"
   end
 
-  def speed_up
-    @speed += 20
-    puts "Поезд №#{@number} ускорился на 20 км/ч, теперь его скорость составляет #{@speed}"
+  def speed_up(i)
+    @speed += i
+    puts "Поезд №#{@number} ускорился, теперь его скорость составляет #{@speed} км/ч"
   end
 
   def current_speed
-    puts "Текущая скорость #{@speed}"
+    puts "Текущая скорость #{@speed} км/ч"
   end
 
   def stop
     @speed = 0
-    puts "Тормозим!"
+    puts "Останавливаемся!"
   end
 
   def list
     puts "Количество вагонов: #{@wagon}"
   end
 
-  def add_wagon
+  def attach_wagon
     if @speed.zero?
       @wagon += 1
       puts "Прицепляем вагон"
@@ -53,19 +53,21 @@ class Train
     end
   end
 
-  def delete_wagon
+  def unhook_wagon
     if @speed.zero?
+        puts "Вагоны осутствуют"
+    elsif @speed.zero?
       @wagon -= 1
-        puts "Отцепляем вагон"
+      puts "Отцепляем вагон"
     else
-      puts "Сначала нужно остановить поезд!"
+      puts "Нельзя отцепить вагон на ходу!"
     end
   end
 
   def take_route(route)
     @route = route
     @station = route.stations.first
-    puts "Маршрут принят: #{route.station.first.name} - #{route.stations.last.name}"
+    puts "Маршрут принят: #{route.stations.first.name} - #{route.stations.last.name}"
   end
 
   def go_forward
@@ -87,8 +89,8 @@ class Train
   end
 
   def previous_station
-    previous_index = @route.stations.find_inex(@station) -1
-    if previous_index = negative?
+    previous_index = @route.stations.find_index(@station) -1
+    if previous_index.negative?
       @station
     else
       @route.stations[previous_index]
@@ -96,12 +98,16 @@ class Train
   end
 
   def current_station
-    next_index = @route.stations.find_index(@station) + 1
-    if route.station.[next_index].nil?
-      @station
-    else
-      @route.stations.[next_index]
-    end
+    @station
   end
 
+ def next_station
+  next_index = @route.stations.find_index(@station) + 1
+    if route.stations[next_index].nil?
+      @station
+      else
+        @route.stations[next_index]
+    end
  end
+
+end

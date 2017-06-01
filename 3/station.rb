@@ -8,6 +8,8 @@
 
 class Station
 
+  attr_reader :name
+
   def initialize(name)
     @name = name
     @trains = []
@@ -17,7 +19,7 @@ class Station
   def take_train(train)
     train.stop
     @trains << train
-    puts "Прибыл #{train.type} поезд#{train.number} #{train.route.stations.first.name} - #{train.route.station.last.name} #{train.wagon} вагонов"
+    puts "Прибыл #{train.type} поезд №#{train.number} #{train.route.stations.first.name} - #{train.route.stations.last.name} с #{train.wagon} вагоном(ми)"
   end
 
   def list
@@ -35,7 +37,7 @@ class Station
   def send_train(train)
     if @trains.include?(train)
       @trains.delete(train)
-      puts "#{train.type.capitalize} поезд #{train.number} #{train.route.stations.first.name} - #{train.route.stations.last.name}отправляется"
+      puts "#{train.type.capitalize} поезд №#{train.number} #{train.route.stations.first.name} - #{train.route.stations.last.name} отправляется"
     else
       puts "Такого поезда нет на станции"
     end
