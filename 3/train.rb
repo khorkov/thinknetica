@@ -26,8 +26,8 @@ class Train
     puts "Собран новый поезд №#{@number}, типа #{@type}, с #{@wagon} вагоном(ми)"
   end
 
-  def speed_up(i)
-    @speed += i
+  def speed_up(speed)
+    @speed += speed
     puts "Поезд №#{@number} ускорился, теперь его скорость составляет #{@speed} км/ч"
   end
 
