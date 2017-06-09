@@ -1,29 +1,12 @@
-=begin
-Имеет номер (произвольная строка) и тип (грузовой, пассажирский) и количество вагонов,
-эти данные указываются при создании экземпляра класса
-Может набирать скорость
-Может возвращать текущую скорость
-Может тормозить (сбрасывать скорость до нуля)
-Может возвращать количество вагонов
-Может прицеплять/отцеплять вагоны (по одному вагону за операцию, метод просто увеличивает или уменьшает количество вагонов).
-Прицепка/отцепка вагонов может осуществляться только если поезд не движется.
-Может принимать маршрут следования (объект класса Route). 
-При назначении маршрута поезду, поезд автоматически помещается на первую станцию в маршруте.
-Может перемещаться между станциями, указанными в маршруте. Перемещение возможно вперед и назад, но только на 1 станцию за раз.
-Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
-=end
-
 class Train
 
-  attr_reader :number, :type, :wagon, :route
+  attr_reader :number, :type, :wagons, :route
 
-  def initialize(number, type, wagon)
+  def initialize(number)
     @number = number
-    @type = type
-    @wagon = wagon
+    @wagons = []
     @speed = 0
 
-    puts "Собран новый поезд №#{@number}, типа #{@type}, с #{@wagon} вагоном(ми)"
   end
 
   def speed_up(speed)
@@ -37,43 +20,30 @@ class Train
 
   def stop
     @speed = 0
-    puts "Останавливаемся!"
+    puts "Тормозим!"
   end
 
   def list
-    puts "Количество вагонов: #{@wagon}"
+    @wagons.count
   end
 
-  def attach_wagon
-    if @speed.zero?
-      @wagon += 1
-      puts "Прицепляем вагон"
-    else
-      puts "Нельзя прицепить вагон на ходу!"
-    end
+  def attach_wagon(wagon)
+    @wagons << wagon if wagon_valid?(wagon)
   end
 
   def unhook_wagon
-    if @speed.zero?
-        puts "Вагоны осутствуют"
-    elsif @speed.zero?
-      @wagon -= 1
-      puts "Отцепляем вагон"
-    else
-      puts "Нельзя отцепить вагон на ходу!"
-    end
+    @wagons.pop if list.positive?
   end
 
   def take_route(route)
     @route = route
     @station = route.stations.first
-    puts "Маршрут принят: #{route.stations.first.name} - #{route.stations.last.name}"
+    move_to_station(@station)
   end
 
   def go_forward
     if current_station != next_station
-      @station = next_station
-      puts "Поехали на станцию #{@station.name}"
+      move_to_station(next_station)
     else
       puts "Вы на конечной станции в маршруте"
     end
@@ -81,8 +51,7 @@ class Train
 
   def go_back
     if current_station != previous_station
-      @station = previous_station
-      puts "Приехали на станцию: #{@station.name}"
+      move_to_station(prev_station)
     else
       puts "Вы на первой станции в маршруте"
     end
@@ -109,5 +78,27 @@ class Train
         @route.stations[next_index]
     end
  end
+
+ protected
+
+# Методы служат для внутреннего использования в классе.
+
+  def move_to_station(station)
+    @station.send_train(self)
+    @station = station
+    @station.take_train(self)
+  end
+
+  def wagon_valid?(wagon)
+    if !@speed.zero?
+      puts "Сначала остановите поезд"
+      false
+    elsif !@type.eql?(wagon.type)
+      puts "Не подходящий тип вагона!"
+      false
+    else
+      true
+    end
+  end
 
 end
