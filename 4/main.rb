@@ -10,4 +10,4 @@ require_relative 'cargo_wagon.rb'
 require_relative 'menu.rb'
 require_relative 'action.rb'
 
-Action.new
+start = Action.new

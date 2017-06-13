@@ -1,4 +1,5 @@
 class Menu
+
   def initialize
     clear
     main_menu

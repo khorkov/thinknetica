@@ -5,22 +5,6 @@ class Train
   def initialize(number)
     @number = number
     @wagons = []
-    @speed = 0
-
-  end
-
-  def speed_up(speed)
-    @speed += speed
-    puts "Поезд №#{@number} ускорился, теперь его скорость составляет #{@speed} км/ч"
-  end
-
-  def current_speed
-    puts "Текущая скорость #{@speed} км/ч"
-  end
-
-  def stop
-    @speed = 0
-    puts "Тормозим!"
   end
 
   def list
@@ -81,7 +65,7 @@ class Train
 
  protected
 
-# Методы служат для внутреннего использования в классе.
+# Методы служат для внутреннего использования в классе
 
   def move_to_station(station)
     @station.send_train(self)

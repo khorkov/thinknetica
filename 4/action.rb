@@ -1,4 +1,5 @@
 class Action < Menu
+
   def initialize
     @stations = []
     @routes = []
@@ -192,4 +193,5 @@ class Action < Menu
     train = choose_train
     train_choose_direction(train)
   end
+
 end
