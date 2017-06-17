@@ -1,6 +1,7 @@
 class Train
 
   include Manufacturer
+  include InstanceCounter
 
   @@trains = {}
 
