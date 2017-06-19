@@ -4,6 +4,7 @@ class Route
 
   def initialize(from, to)
     @stations = [from, to]
+    register_instance
   end
 
   def add_station(station)

@@ -3,6 +3,7 @@ class Menu
   def initialize
     clear
     main_menu
+    register_instance
   end
 
   # Методы ниже в блоке protected, т.к. у класса есть дочерний класс Actions
