@@ -1,16 +1,10 @@
-require_relative 'validation.rb'
-
 class Route
-
-  include Valid
 
   attr_accessor :stations
 
   def initialize(from, to)
-    @from = from
-    @to = to
-    @stations = []
-    @stations << from << to
+    @stations = [from, to]
+    validate!
   end
 
   def add_station(station)
@@ -29,9 +23,18 @@ class Route
      @stations.each_with_index { |station, index| puts "#{index} #{station.name}"  }
   end
 
-  def validate?(station)
-    raise "Конечная станция не может быть начальной!" if @from == @to
-  true
+  def valid?
+    validate!
+  rescue
+    false
+  end
+
+  protected
+
+  def validate!
+    raise "Название станции не может быть пустым" if @stations.nil?
+    raise "Станций должно быть больше двух" if @stations.size < 2
+    true
   end
 
 end

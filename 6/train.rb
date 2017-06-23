@@ -2,9 +2,8 @@ class Train
 
   include Manufacturer
   include InstanceCounter
-  include Valid
 
-  FORMAT = /^[a-z0-9]{3}-?[a-z0-9]{2}$/
+  NUMBER_FORMAT = /^[a-z0-9]{3}-?[a-z0-9]{2}$/
 
   @@trains = {}
 
@@ -12,10 +11,10 @@ class Train
 
   def initialize(number)
     @number = number
+    validate!
     @wagons = []
     @@trains[number] = self
     register_instance
-    validate?
   end
 
   def self.find(number)
@@ -78,6 +77,12 @@ class Train
     end
  end
 
+ def valid?
+   validate!
+ rescue
+   false
+ end
+
  protected
 
 # Методы служат для внутреннего использования в классе
@@ -100,8 +105,8 @@ class Train
     end
   end
 
-  def validate?
-    raise "Неверный номер поезда. Введите еще раз." if self.number !~ FORMAT
+  def validate!
+    raise "Неверный номер поезда. Введите еще раз." if self.number !~ NUMBER_FORMAT
   end
 
 end

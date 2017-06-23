@@ -1,7 +1,5 @@
 class Station
 
-  include Valid
-
   @@stations = []
 
   attr_reader :name
@@ -9,8 +7,8 @@ class Station
   def initialize(name)
     @name = name
     @trains = []
+    validate!
     @@stations << self
-    validate?
   end
 
   def self.all
@@ -37,9 +35,17 @@ class Station
     @trains.delete(train) if @trains.include?(train)
   end
 
-  def validate?
-    raise "Название станции не может быть пустым!" if name.nil?
-    raise "Название станиции должно быть не менее 6 симовлов" if name.length < 6
+  def valid?
+    validate!
+  rescue
+    false
+  end
+
+  protected
+
+  def validate!
+    raise "Название станции не может быть пустым!" if self.name.nil?
+    raise "Название станиции должно быть не менее 6 симовлов" if self.name.length < 6
     true
   end
 
