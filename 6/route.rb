@@ -32,7 +32,7 @@ class Route
   protected
 
   def validate!
-    raise "Название станции не может быть пустым" if @stations.nil?
+    raise "Название станции не может быть пустым" if @stations.empty?
     raise "Станций должно быть больше двух" if @stations.size < 2
     true
   end
