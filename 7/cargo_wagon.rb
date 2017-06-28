@@ -1,15 +1,13 @@
 class CargoWagon < Wagon
 
-  attr_reader :volume
-
   def initialize(volume)
     @type = :cargo
     @volume = volume
     @current_volume = 0
   end
 
-  def take_volume(current_volume)
-    @current_volume += 1
+  def take_volume(volume)
+    @current_volume += volume unless free_volume < volume
   end
 
   def busy_volume

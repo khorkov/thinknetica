@@ -10,7 +10,7 @@ class PassengerWagon < Wagon
   end
 
   def take_seats
-    @passengers += 1
+    @passengers += 1 unless free_seats.zero?
   end
 
   def busy_seats

@@ -13,8 +13,13 @@ class Train
     @number = number
     validate!
     @wagons = []
+    @speed = 0
     @@trains[number] = self
     register_instance
+  end
+
+  def speed(speed)
+    @speed += speed
   end
 
   def self.find(number)
@@ -98,15 +103,9 @@ class Train
   end
 
   def wagon_valid?(wagon)
-    if !@speed.zero?
-      puts "Сначала остановите поезд"
-      false
-    elsif !@type.eql?(wagon.type)
-      puts "Не подходящий тип вагона!"
-      false
-    else
-      true
-    end
+    raise "Сначала остановите поезд" unless @speed.zero?
+    raise "Не подходящий тип вагона!" unless wagon.type.eql?(wagon.type)
+    true
   end
 
   def validate!

@@ -6,8 +6,6 @@ class Menu
     register_instance
   end
 
-  # Методы ниже в блоке protected, т.к. у класса есть дочерний класс Actions
-
   protected
 
   def print_menu

@@ -10,13 +10,11 @@ class Action < Menu
                     'Создать поезд' => 'create_train', 'Назначить поезду маршрут' => 'assign_route',
                     'Прицепить вагоны к поезду' => 'attach_wagon',
                     'Отцепить вагоны от поезда' => 'unhook_wagon',
-                    'Переместить поезд по маршруту' => 'train_move' }
+                    'Переместить поезд по маршруту' => 'train_move', 'Занять место или объем в вагоне' => 'fill_wagon' } 
 
     super
     register_instance
   end
-  # Все методы ниже в блоке private т.к. используются только из этого класса
-  # и класс без наследников.
 
   private
 
@@ -34,6 +32,15 @@ class Action < Menu
       puts "#{index} #{station.name}"
       station.list
     end
+  end
+
+  def wagon_list(train)
+     train.with_each_wagons { |wagon, wagon_index| puts "#{wagon_index} #{wagon.type} #{wagon_space(wagon)}" }
+  end
+
+  def wagon_space(wagon)
+    puts "#{wagon.busy_volume} #{wagon.free_volume}" if wagon.type.eql?(:cargo)
+    puts "#{wagon.take_seats} #{wagon.free_seats}" if wagon.type.eql?(:passenger)
   end
 
   def create_route
@@ -144,6 +151,12 @@ class Action < Menu
     @trains[gets.to_i]
   end
 
+  def choose_wagon(train)
+    wagon_list(train)
+    puts "Выберите вагон:"
+    train.wagons[gets.to_i]
+  end
+
   def assign_route
     train = choose_train
     route = choose_route
@@ -156,13 +169,32 @@ class Action < Menu
     gets.to_i
   end
 
+  def seats_count
+    puts "Сколько мест?"
+    gets.to_i
+  end
+
+  def volume_count
+    puts "Какой объем?"
+    gets.to_i
+  end
+
   def attach_wagon
     train = choose_train
     count = wagon_count
-    wagon = PassengerWagon.new if train.type.eql?(:passenger)
-    wagon = CargoWagon.new if train.type.eql?(:cargo)
-    count.times { train.attach_wagon(wagon) }
+    count.times do
+      wagon = PassengerWagon.new(seats_count) if train.type.eql?(:passenger)
+      wagon = CargoWagon.new(volume_count) if train.type.eql?(:cargo)
+      train.attach_wagon(wagon)
+    end
     puts "Вагоны прицеплены. Текущее количество: #{train.list}"
+  end
+
+  def fill_wagon
+    train = choose_train
+    wagon = choose_wagon(train)
+    wagon.take_volume(volume_count) if wagon.type.eql?(:cargo)
+    wagon.take_seats if wagon.type.eql?(:passenger)
   end
 
   def unhook_wagon
